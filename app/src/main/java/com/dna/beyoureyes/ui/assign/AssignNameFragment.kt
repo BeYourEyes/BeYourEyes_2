@@ -55,8 +55,7 @@ class AssignNameFragment : AssignFragment() {
         viewModel.nameValidationResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is AssignViewModel.NameValidation.Duplicate,
-                is AssignViewModel.NameValidation.Empty,
-                is AssignViewModel.NameValidation.Error -> {
+                is AssignViewModel.NameValidation.Empty -> {
                     binding.validationText.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),

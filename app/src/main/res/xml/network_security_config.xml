@@ -3,5 +3,4 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">api.data.go.kr</domain>
     </domain-config>
-    <base-config cleartextTrafficPermitted="true" />
 </network-security-config>

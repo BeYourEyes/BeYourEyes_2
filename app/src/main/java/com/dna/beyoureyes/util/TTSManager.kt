@@ -1,6 +1,7 @@
 package com.dna.beyoureyes.util
 
 import android.content.Context
+import android.media.AudioManager
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -8,8 +9,8 @@ import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import com.dna.beyoureyes.AppUser
-import com.dna.beyoureyes.data.model.CaloricNutrient
-import com.dna.beyoureyes.data.model.Food
+import com.dna.beyoureyes.model.CaloricNutrient
+import com.dna.beyoureyes.model.Food
 import java.util.LinkedList
 import java.util.Locale
 import com.dna.extensions.addSubjectMarker

@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.dna.beyoureyes.ui.foodDetail.ResultKcalFragment
 import com.dna.beyoureyes.ui.foodDetail.ResultNutriBarFragment
 import com.dna.beyoureyes.databinding.FragmentMyPastDetailBinding
-import com.dna.beyoureyes.data.model.NutritionWrapper
-import com.dna.beyoureyes.ui.common.CustomToolbar
+import com.dna.beyoureyes.model.NutritionWrapper
+import com.dna.beyoureyes.ui.CustomToolbar
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -19,8 +18,6 @@ import java.util.Locale
 class MyPastDetailFragment : Fragment() {
     private var _binding: FragmentMyPastDetailBinding? = null
     private val binding get() = _binding!!
-
-    private val myInfoViewModel: MyInfoViewModel by activityViewModels() // ViewModel 공유
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,31 +34,36 @@ class MyPastDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 과거 기록 데이터 UI 세팅
-        myInfoViewModel.selectedFoodHistory.value?.let{ history ->
-            // 식품 사진
-            Glide.with(this)
-                .load(history.imgUrl)
-                .centerCrop() // 이미지를 크롭
-                .into(binding.imageView)
+        // 전달받은 과거 기록 데이터
+        val foodHistory = MyPastDetailFragmentArgs.fromBundle(requireArguments()).foodHistory
 
-            // 기록 날짜
+        // 식품 사진
+        Glide.with(this)
+            .load(foodHistory.imgUri)
+            .centerCrop() // 이미지를 크롭
+            .into(binding.imageView)
+
+        // 기록 날짜
+        foodHistory.timestamp?.let {
+            val datetime = it.toDate()
             val dateFormat = SimpleDateFormat("yyyy.MM.dd (E)", Locale.KOREA) // 날짜 형식
             val timeFormat = SimpleDateFormat("HH:mm a", Locale.US) // 시간 형식
-            binding.dateTextView.text = dateFormat.format(history.timestamp)
-            binding.timeTextView.text = timeFormat.format(history.timestamp)
+            binding.dateTextView.text = dateFormat.format(datetime)
+            binding.timeTextView.text = timeFormat.format(datetime)
+        }
 
-            // 칼로리 정보
+        // 칼로리 정보를 칼로리 프래그먼트에 Bundle로 전달
+        foodHistory.kcal?.let {
             binding.kcalFragment.getFragment<ResultKcalFragment>().arguments = Bundle().apply {
-                putInt("kcal", history.kcal)
+                putInt("kcal", it)
             }
+        }
 
-            // 영양성분 함유량 정보를 영양소바 프래그먼트에 Bundle로 전달
-            binding.nutriBarFragment.getFragment<ResultNutriBarFragment>().arguments = Bundle().apply {
-                putParcelableArrayList(
-                    "nutritionList", ArrayList(history.nutritions.map{ NutritionWrapper(it) })
-                )
-            }
+        // 영양성분 함유량 정보를 영양소바 프래그먼트에 Bundle로 전달
+        binding.nutriBarFragment.getFragment<ResultNutriBarFragment>().arguments = Bundle().apply {
+            putParcelableArrayList(
+                "nutritionList", ArrayList(foodHistory.nutritions.map{ NutritionWrapper(it) })
+            )
         }
 
         binding.toolbar.closeButtonClickListener= object : CustomToolbar.ButtonClickListener {
@@ -79,7 +81,6 @@ class MyPastDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        myInfoViewModel.clearSelectedFoodHistory()
     }
 
 }

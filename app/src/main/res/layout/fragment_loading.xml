@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray_50">
 
-    <com.dna.beyoureyes.ui.common.CustomToolbar
+    <com.dna.beyoureyes.ui.CustomToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,8 +68,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/loading_percent"
-            android:textColor="@color/white"
-            android:fontFamily="@font/wanted_sans_bold"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </FrameLayout>
 

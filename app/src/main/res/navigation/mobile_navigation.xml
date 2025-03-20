@@ -18,6 +18,13 @@
         android:name="com.dna.beyoureyes.ui.myInfo.MyInfoFragment"
         android:label="@string/title_user"
         tools:layout="@layout/fragment_my_info">
+        <action
+            android:id="@+id/action_myInfo_to_pastDetail"
+            app:destination="@id/navigation_past_detail">
+            <argument
+                android:name="foodHistory"
+                app:argType="com.dna.beyoureyes.model.FoodHistory" />
+        </action>
     </fragment>
 
     <!-- 식품 분석 메뉴(FoodActivity 연결) -->
@@ -33,6 +40,9 @@
         android:name="com.dna.beyoureyes.ui.myInfo.MyPastDetailFragment"
         android:label="@string/my_past_detail_title"
         tools:layout="@layout/fragment_my_past_detail">
+        <argument
+            android:name="foodHistory"
+            app:argType="com.dna.beyoureyes.model.FoodHistory" />
     </fragment>
 
     <!-- 상세 영양성분 정보 Fragment -->
@@ -41,7 +51,7 @@
         android:name="com.dna.beyoureyes.ui.foodDetail.ResultNutriBarFragment">
         <argument
             android:name="nutritionList"
-            app:argType="com.dna.beyoureyes.data.model.NutritionWrapper[]" />
+            app:argType="com.dna.beyoureyes.model.NutritionWrapper[]" />
     </fragment>
 
     <!-- 식품 칼로리 정보 Fragment -->

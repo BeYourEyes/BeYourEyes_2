@@ -1,16 +1,20 @@
 package com.dna.beyoureyes.ui.myInfo
 
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.dna.beyoureyes.R
 import com.dna.beyoureyes.databinding.FoodHistoryItemBinding
-import com.dna.beyoureyes.data.model.FoodHistory
-import org.threeten.bp.LocalDateTime
+import com.dna.beyoureyes.model.FoodHistory
+import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -47,17 +51,17 @@ class FoodHistoryView(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    fun setOnItemClickListener(history: FoodHistory, listener: (FoodHistory) -> Unit) {
+    fun setOnItemClickListener(history:FoodHistory, listener: (FoodHistory) -> Unit) {
         binding.cardView.setOnClickListener { listener(history) }
     }
 
-    fun setData(timestamp: LocalDateTime, kcal:Int, imgUrl: String?) {
+    fun setData(timestamp: Timestamp?, kcal:Int?, imgUri: Uri?) {
         // textView 세팅
-        binding.kcal.text = "${kcal}kcal" // 섭취 칼로리 text
-        binding.label.text = getTimeText(timestamp) // 식품 기록 제목 text
+        binding.kcal.text = kcal?.let { it.toString()+"kcal" }?: run { "" } // 섭취 칼로리 text
+        binding.label.text = timestamp?.let { getTimeText(it) }?: run { "" } // 식품 기록 제목 text
         // 식품 사진 image view
         Glide.with(this)
-            .load(imgUrl)
+            .load(imgUri)
             .centerCrop() // 이미지를 크롭
             .into(binding.imageView)
         updateContentDescription()
@@ -70,8 +74,9 @@ class FoodHistoryView(context: Context, attrs: AttributeSet?) :
         }
     }
 
-    private fun getTimeText(timestamp: LocalDateTime) : String { // 오전 HH시 mm분 형식의 텍스트 만들기
+    private fun getTimeText(timestamp: Timestamp) : String { // 오전 HH시 mm분 형식의 텍스트 만들기
+        val datetime = timestamp.toDate()
         val timeFormat = SimpleDateFormat("a H시 m분", Locale.KOREA) // 시간 형식
-        return timeFormat.format(timestamp)
+        return timeFormat.format(datetime)
     }
 }

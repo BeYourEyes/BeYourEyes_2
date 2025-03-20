@@ -3,16 +3,16 @@ package com.dna.beyoureyes.util
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.dna.beyoureyes.data.model.Allergen
-import com.dna.beyoureyes.data.model.Carbs
-import com.dna.beyoureyes.data.model.Cholesterol
-import com.dna.beyoureyes.data.model.Fat
-import com.dna.beyoureyes.data.model.Food
-import com.dna.beyoureyes.data.model.Natrium
-import com.dna.beyoureyes.data.model.Nutrition
-import com.dna.beyoureyes.data.model.Protein
-import com.dna.beyoureyes.data.model.SaturatedFat
-import com.dna.beyoureyes.data.model.Sugar
+import com.dna.beyoureyes.model.Allergen
+import com.dna.beyoureyes.model.Carbs
+import com.dna.beyoureyes.model.Cholesterol
+import com.dna.beyoureyes.model.Fat
+import com.dna.beyoureyes.model.Food
+import com.dna.beyoureyes.model.Natrium
+import com.dna.beyoureyes.model.Nutrition
+import com.dna.beyoureyes.model.Protein
+import com.dna.beyoureyes.model.SaturatedFat
+import com.dna.beyoureyes.model.Sugar
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -48,7 +48,7 @@ class FoodTextRecognizer(private val context: Context) {
     private val textRecognizer = TextRecognition.getClient(
         KoreanTextRecognizerOptions.Builder().build() // 한글 텍스트 인식 인스턴스 생성
     )
-    private val apiHelper = OpenApiHelper() // open API 통신 헬퍼 객체
+    private val apiHelper = FoodOpenApiHelper() // open API 통신 헬퍼 객체
 
     suspend fun detectTextFromUri(uri: Uri): Food? {
         return withContext(Dispatchers.Default) { // IO 스레드에서 실행(네트워크 작업, 파일 I/O 최적화)
