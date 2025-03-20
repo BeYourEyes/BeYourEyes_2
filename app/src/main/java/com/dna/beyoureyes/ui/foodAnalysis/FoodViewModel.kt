@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dna.beyoureyes.AppUser
-import com.dna.beyoureyes.model.Food
+import com.dna.beyoureyes.data.model.Food
 
 
 class FoodViewModel : ViewModel() {
@@ -55,7 +55,7 @@ class FoodViewModel : ViewModel() {
         return _capturedImageUri.value
     }
 
-    fun setFoodData(food:Food) {
+    fun setFoodData(food: Food) {
         _foodData.value = food
     }
 

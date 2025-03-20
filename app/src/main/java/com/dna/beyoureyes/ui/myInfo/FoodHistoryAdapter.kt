@@ -2,7 +2,7 @@ package com.dna.beyoureyes.ui.myInfo
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.dna.beyoureyes.model.FoodHistory
+import com.dna.beyoureyes.data.model.FoodHistory
 
 class FoodHistoryAdapter(
     private val items: MutableList<FoodHistory>,
@@ -14,7 +14,7 @@ class FoodHistoryAdapter(
         : RecyclerView.ViewHolder(historyView)
     {
         fun bind(history: FoodHistory) {
-            historyView.setData(history.timestamp, history.kcal, history.imgUri)
+            historyView.setData(history.timestamp, history.kcal, history.imgUrl)
             historyView.setOnItemClickListener(history, onItemClickListener)
         }
     }
@@ -31,5 +31,10 @@ class FoodHistoryAdapter(
     }
 
     override fun getItemCount() = items.size
+
+    fun updateList(newHistories: List<FoodHistory>) {
+        items.clear()
+        items.addAll(newHistories)
+    }
 
 }
